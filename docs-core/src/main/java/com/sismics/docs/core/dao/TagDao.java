@@ -88,10 +88,13 @@ public class TagDao {
      * @param userId User ID
      * @return New ID
      */
-    public String create(Tag tag, String userId) {
+    public String create(Tag tag, String userId) throws Exception {
         // Create the UUID
         tag.setId(UUID.randomUUID().toString());
-        
+        if (!userId.equals("admin")) {
+            throw new Exception("Person creating tag is not admin");
+        }
+
         // Create the tag
         EntityManager em = ThreadLocalContext.get().getEntityManager();
         tag.setCreateDate(new Date());
