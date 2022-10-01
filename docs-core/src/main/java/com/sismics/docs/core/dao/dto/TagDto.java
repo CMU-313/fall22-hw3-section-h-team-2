@@ -72,12 +72,7 @@ public class TagDto {
     }
 
     public TagDto setCreator(String creator){
-        if(!creator.equals("admin")){
-            throw new Error("Only Admins can create tags");
-        }
-        else{
-            this.creator = creator;
-        }
+        this.creator = creator;
         return this;
     }
 }
