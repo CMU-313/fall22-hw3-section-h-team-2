@@ -196,9 +196,15 @@ public class TagResource extends BaseResource {
         tag.setColor(color);
         tag.setUserId(principal.getId());
         tag.setParentId(parentId);
-        String id = tagDao.create(tag, principal.getId());
+        String id;
+        try { 
+            id = tagDao.create(tag, principal.getId());
+        }
+        catch (Exception e) {
+            id = null;
+        }
 
-        // Create read ACL
+         // Create read ACL
         AclDao aclDao = new AclDao();
         Acl acl = new Acl();
         acl.setPerm(PermType.READ);
