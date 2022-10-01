@@ -196,35 +196,34 @@ public class TagResource extends BaseResource {
         tag.setColor(color);
         tag.setUserId(principal.getId());
         tag.setParentId(parentId);
+        String id;
         try { 
-            String id = tagDao.create(tag, principal.getId());
-            // Create read ACL
-            AclDao aclDao = new AclDao();
-            Acl acl = new Acl();
-            acl.setPerm(PermType.READ);
-            acl.setType(AclType.USER);
-            acl.setSourceId(id);
-            acl.setTargetId(principal.getId());
-            aclDao.create(acl, principal.getId());
-
-            // Create write ACL
-            acl = new Acl();
-            acl.setPerm(PermType.WRITE);
-            acl.setType(AclType.USER);
-            acl.setSourceId(id);
-            acl.setTargetId(principal.getId());
-            aclDao.create(acl, principal.getId());
-            
-            JsonObjectBuilder response = Json.createObjectBuilder()
-                    .add("id", id);
-            return Response.ok().entity(response.build()).build();
+            id = tagDao.create(tag, principal.getId());
         }
         catch (Exception e) {
-            System.out.println("Person creating tag is not admin");
-            return null;
+            id = null;
         }
 
+         // Create read ACL
+        AclDao aclDao = new AclDao();
+        Acl acl = new Acl();
+        acl.setPerm(PermType.READ);
+        acl.setType(AclType.USER);
+        acl.setSourceId(id);
+        acl.setTargetId(principal.getId());
+        aclDao.create(acl, principal.getId());
+
+        // Create write ACL
+        acl = new Acl();
+        acl.setPerm(PermType.WRITE);
+        acl.setType(AclType.USER);
+        acl.setSourceId(id);
+        acl.setTargetId(principal.getId());
+        aclDao.create(acl, principal.getId());
         
+        JsonObjectBuilder response = Json.createObjectBuilder()
+                .add("id", id);
+        return Response.ok().entity(response.build()).build();
     }
     
     /**

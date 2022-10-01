@@ -3,7 +3,9 @@ package com.sismics.docs.core.dao;
 import com.google.common.base.Joiner;
 import com.sismics.docs.core.constant.AuditLogType;
 import com.sismics.docs.core.dao.criteria.TagCriteria;
+import com.sismics.docs.core.dao.criteria.UserCriteria;
 import com.sismics.docs.core.dao.dto.TagDto;
+import com.sismics.docs.core.dao.dto.UserDto;
 import com.sismics.docs.core.model.jpa.DocumentTag;
 import com.sismics.docs.core.model.jpa.Tag;
 import com.sismics.docs.core.util.AuditLogUtil;
@@ -92,7 +94,7 @@ public class TagDao {
         // Create the UUID
         tag.setId(UUID.randomUUID().toString());
         if (!userId.equals("admin")) {
-            throw new Exception("Person creating tag is not admin");
+            throw new Exception("Person creating tag is not admin!");
         }
 
         // Create the tag
@@ -102,7 +104,28 @@ public class TagDao {
         
         // Create audit log
         AuditLogUtil.create(tag, AuditLogType.CREATE, userId);
-        
+
+        // Only allow existing users to be tagged as reviewer
+        UserDao userDao = new UserDao();
+        UserCriteria userCriteria = new UserCriteria();
+        userCriteria.setSearch(null);
+        userCriteria.setGroupId(null);
+        userCriteria.setUserId(null);
+        userCriteria.setUserName(null);
+
+        SortCriteria sortCriteria = new SortCriteria(1, null);
+        List<UserDto> userDtoList = userDao.findByCriteria(userCriteria, sortCriteria);
+        boolean userExists = false;
+        for (UserDto userDto: userDtoList) {
+            if (tag.getName().equals(userDto.getUsername())) {
+                userExists = true;
+            }
+        }
+
+        if (!userExists) {
+            throw new Exception("Tagged user doesn't exist!");
+        }
+
         return tag.getId();
     }
     
