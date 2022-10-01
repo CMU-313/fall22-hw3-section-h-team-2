@@ -130,7 +130,6 @@ public class TagDao {
         if(dto != null){
             dto.setReviewerStatus(true);
         }
-        System.out.println(dto.getReviewerStatus());
         return tag.getId();
     }
     
