@@ -95,6 +95,12 @@ public class User implements Loggable {
     @Column(name = "USE_DISABLEDATE_D")
     private Date disableDate;
 
+    //  /**
+    //  * reviewer stauts.
+    //  */
+    // @Column(name = "USE_REVIEWERSTATUS_B")
+    // private boolean reviewerStatus;
+
     public String getId() {
         return id;
     }
@@ -103,6 +109,15 @@ public class User implements Loggable {
         this.id = id;
         return this;
     }
+
+    // public boolean getReviewerStatus() {
+    //     return reviewerStatus;
+    // }
+
+    // public User setReviewerStatus(boolean status) {
+    //     this.reviewerStatus = status;
+    //     return this;
+    // }
 
     public String getRoleId() {
         return roleId;

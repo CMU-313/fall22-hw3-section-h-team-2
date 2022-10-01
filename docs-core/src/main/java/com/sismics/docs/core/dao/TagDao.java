@@ -116,16 +116,21 @@ public class TagDao {
         SortCriteria sortCriteria = new SortCriteria(1, null);
         List<UserDto> userDtoList = userDao.findByCriteria(userCriteria, sortCriteria);
         boolean userExists = false;
+        UserDto dto = null;
         for (UserDto userDto: userDtoList) {
             if (tag.getName().equals(userDto.getUsername())) {
                 userExists = true;
+                dto = userDto;
             }
         }
 
         if (!userExists) {
             throw new Exception("Tagged user doesn't exist!");
         }
-
+        if(dto != null){
+            dto.setReviewerStatus(true);
+        }
+        System.out.println(dto.getReviewerStatus());
         return tag.getId();
     }
     

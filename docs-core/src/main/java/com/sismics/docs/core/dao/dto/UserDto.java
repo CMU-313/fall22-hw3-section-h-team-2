@@ -48,6 +48,11 @@ public class UserDto {
      */
     private String totpKey;
 
+     /**
+     * Reviewer Privelage.
+     */
+    private boolean reviewerStatus;
+
     public String getId() {
         return id;
     }
@@ -111,6 +116,14 @@ public class UserDto {
 
     public void setTotpKey(String totpKey) {
         this.totpKey = totpKey;
+    }
+
+    public boolean getReviewerStatus() {
+        return reviewerStatus;
+    }
+
+    public void setReviewerStatus(boolean status) {
+        this.reviewerStatus = status;
     }
 
     @Override
