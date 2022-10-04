@@ -30,7 +30,7 @@
   "index": {
     "toggle_navigation": "Toggle navigation",
     "nav_documents": "Documents",
-    "nav_tags": "Tags",
+    "nav_tags": "Reviewers",
     "nav_users_groups": "Users & Groups",
     "error_info": "{{ count }} new error{{ count > 1 ? 's' : '' }}",
     "logged_as": "Logged in as {{ username }}",
@@ -51,15 +51,15 @@
     "search_after_date": "Created after this date",
     "search_before_update_date": "Updated before this date",
     "search_after_update_date": "Updated after this date",
-    "search_tags": "Tags",
+    "search_tags": "Reviewers",
     "search_shared": "Only shared documents",
     "search_workflow": "Workflow assigned to me",
     "search_clear": "Clear",
     "any_language": "Any language",
     "add_document": "Add a document",
     "import_eml": "Import from an email (EML format)",
-    "tags": "Tags",
-    "no_tags": "No tags",
+    "tags": "Reviewers",
+    "no_tags": "No reviewers",
     "no_documents": "No document in the database",
     "search": "Search",
     "search_empty": "No matches for <strong>\"{{ search }}\"</strong>",
@@ -138,9 +138,9 @@
       },
       "permissions": {
         "permissions": "Permissions",
-        "message": "Permissions can be applied directly to this document, or can come from <a href=\"#/tag\">tags</a>.",
+        "message": "Permissions can be applied directly to this document, or can come from <a href=\"#/tag\">reviewers</a>.",
         "title": "Permissions on this document",
-        "inherited_tags": "Permissions inherited by tags",
+        "inherited_tags": "Permissions inherited by reviewers",
         "acl_source": "From",
         "acl_target": "For",
         "acl_permission": "Permission"
@@ -217,25 +217,25 @@
     }
   },
   "tag": {
-    "new_tag": "New tag",
+    "new_tag": "New reviewer",
     "search": "Search",
     "default": {
-      "title": "Tags",
-      "message_1": "<strong>Tags</strong> are labels associated to documents.",
-      "message_2": "A document can be tagged by multiple tags, and a tag can be applied to multiple documents.",
-      "message_3": "Using the <span class=\"fas fa-pencil-alt\"></span> button, you can edit permissions on a tag.",
-      "message_4": "If a tag can be read by another user or group, associated documents can also be read by those people.",
-      "message_5": "For example, tag your company documents with a tag <span class=\"label label-info\">MyCompany</span> and add the permission <strong>Can read</strong> to a group <span class=\"btn btn-default\">employees</span>"
+      "title": "Reviewers",
+      "message_1": "<strong>Reviewers</strong> are assigned to documents.",
+      "message_2": "A document can be assigned to multiple reviewers, and a reviewer can be assigned to multiple documents.",
+      "message_3": "Using the <span class=\"fas fa-pencil-alt\"></span> button, you can edit permissions on a reviewer.",
+      "message_4": "If a reviewer can be seen by another user or group, associated documents can also be read by those people.",
+      "message_5": "For example, assign your company documents to a reviewer <span class=\"label label-info\">MyCompany</span> and add the permission <strong>Can read</strong> to a group <span class=\"btn btn-default\">employees</span>"
     },
     "edit": {
-      "delete_tag_title": "Delete tag",
-      "delete_tag_message": "Do you really want to delete this tag?",
+      "delete_tag_title": "Delete reviewer",
+      "delete_tag_message": "Do you really want to delete this reviewer?",
       "name": "Name",
       "color": "Color",
       "parent": "Parent",
-      "info": "Permissions on this tag will also be applied to documents tagged <span class=\"label label-info\" ng-style=\"{ 'background': color }\">{{ name }}</span>",
+      "info": "Permissions on this reviewer will also be applied to documents assigned to <span class=\"label label-info\" ng-style=\"{ 'background': color }\">{{ name }}</span>",
       "circular_reference_title": "Circular reference",
-      "circular_reference_message": "The hierarchy of parent tags makes a loop, please choose another parent."
+      "circular_reference_message": "The hierarchy of parent reviewers makes a loop, please choose another parent."
     }
   },
   "group": {
@@ -302,7 +302,7 @@
       "totp_enabled": "Two-factor authentication enabled for this account",
       "edit": {
         "delete_user_title": "Delete user",
-        "delete_user_message": "Do you really want to delete this user? All associated documents, files and tags will be deleted",
+        "delete_user_message": "Do you really want to delete this user? All associated documents, files and reviewers will be deleted",
         "user_used_title": "User in use",
         "user_used_message": "This user is used in the workflow \"{{ name }}\"",
         "edit_user_failed_title": "User already exists",
@@ -442,13 +442,13 @@
       "username": "IMAP username",
       "password": "IMAP password",
       "folder": "IMAP folder",
-      "tag": "Tag added to imported documents",
+      "tag": "Reviewer added to imported documents",
       "test": "Test the parameters",
       "last_sync": "Last synchronization: {{ data.date | date: 'medium' }}, {{ data.count }} message{{ data.count > 1 ? 's' : '' }} imported",
       "test_success": "The connection to the inbox is successful ({{ count }} <strong>unread</strong> message{{ count > 1 ? 's' : '' }})",
       "test_fail": "An error occurred while connecting to the inbox, please check the parameters",
       "saved": "IMAP configuration saved successfully",
-      "autoTagsEnabled": "Automatically add tags from subject line marked with #",
+      "autoTagsEnabled": "Automatically add reviewers from subject line marked with #",
       "deleteImported": "Delete message from mailbox after import"
     },
     "monitoring": {
@@ -457,7 +457,7 @@
       "queued_tasks_explain": "File processing, thumbnail creation, index update, optical character recognition are background tasks. A large amount of unprocessed tasks will result in incomplete search results.",
       "server_logs": "Server logs",
       "log_date": "Date",
-      "log_tag": "Tag",
+      "log_tag": "Reviewer",
       "log_message": "Message",
       "indexing": "Indexing",
       "indexing_info": "If you notice discrepancies in the search results, you can try to do a full reindexing. Search results will be incomplete until this operation is done.",
@@ -533,7 +533,7 @@
       "Group": "Group",
       "Route": "Workflow",
       "RouteModel": "Workflow model",
-      "Tag": "Tag",
+      "Tag": "Reviewerg",
       "User": "User",
       "Webhook": "Webhook"
     },
@@ -541,7 +541,7 @@
       "typeahead": "Type a document title"
     },
     "selecttag": {
-      "typeahead": "Type a tag"
+      "typeahead": "Type a reviewer"
     },
     "datepicker": {
       "current": "Today",
@@ -583,8 +583,8 @@
     "alphanumeric": "Only letters and numbers are allowed"
   },
   "action_type": {
-    "ADD_TAG": "Add a tag",
-    "REMOVE_TAG": "Remove a tag",
+    "ADD_TAG": "Add a reviewer",
+    "REMOVE_TAG": "Remove a reviewer",
     "PROCESS_FILES": "Process files"
   },
   "pagination": {
@@ -611,8 +611,8 @@
       "description": "This is the main way to find your documents back. There is also an advanced search with the magnifier button."
     },
     "step5": {
-      "title": "Tags",
-      "description": "Documents can be organized in tags (which are like super-folders). Create them here."
+      "title": "Reviewers",
+      "description": "Documents can be assigned to reviewers (which are like super-folders). Create them here."
     }
   },
   "yes": "Yes",
