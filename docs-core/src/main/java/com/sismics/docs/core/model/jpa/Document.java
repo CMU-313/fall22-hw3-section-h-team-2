@@ -119,6 +119,24 @@ public class Document implements Loggable {
     @Column(name = "DOC_DELETEDATE_D")
     private Date deleteDate;
     
+    /**
+     * Skills.
+     */
+    @Column(name = "DOC_SKILLS_C")
+    private String skills;
+    
+    /**
+     * Experience.
+     */
+    @Column(name = "DOC_EXPERIENCE_C")
+    private String experience;
+
+    /**
+     * GPA.
+     */
+    @Column(name = "DOC_GPA_C")
+    private Long GPA;
+
     public String getId() {
         return id;
     }
@@ -255,6 +273,30 @@ public class Document implements Loggable {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getSkills() {
+        return skills;
+    }
+
+    public void setSkills(String skills) {
+        this.skills = skills;
+    }
+
+    public String getExperience() {
+        return experience;
+    }
+
+    public void setExperience(String experience) {
+        this.experience = experience;
+    }
+
+    public Long getGPA() {
+        return GPA;
+    }
+
+    public void setGPA(Long GPA) {
+        this.GPA = GPA;
     }
 
     @Override
