@@ -16,6 +16,10 @@ import com.sismics.rest.util.AclUtil;
 import com.sismics.rest.util.ValidationUtil;
 import org.apache.commons.lang.StringUtils;
 
+import com.sismics.docs.core.dao.criteria.UserCriteria;
+import com.sismics.docs.core.dao.UserDao;
+import com.sismics.docs.core.dao.dto.UserDto;
+
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
@@ -139,6 +143,20 @@ public class TagResource extends BaseResource {
 
         // Add ACL
         AclUtil.addAcls(tag, id, getTargetIdList(null));
+
+        //
+
+        // Validate input
+        String search = tagDto.getName();
+        search = ValidationUtil.validateLength(search, "search", 1, 50, false);
+
+        // Search users
+        UserDao userDao = new UserDao();
+        SortCriteria sortCriteria = new SortCriteria(1, true);
+        List<UserDto> userDtoList = userDao.findByCriteria(new UserCriteria().setSearch(search), sortCriteria);
+        for (UserDto userDto : userDtoList) {
+            AclUtil.addAcls(tag, userDto.getId(), getTargetIdList(null));
+        }
 
         return Response.ok().entity(tag.build()).build();
     }
