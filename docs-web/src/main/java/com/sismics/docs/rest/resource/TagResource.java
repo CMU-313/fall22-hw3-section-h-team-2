@@ -144,20 +144,6 @@ public class TagResource extends BaseResource {
         // Add ACL
         AclUtil.addAcls(tag, id, getTargetIdList(null));
 
-        //
-
-        // Validate input
-        String search = tagDto.getName();
-        search = ValidationUtil.validateLength(search, "search", 1, 50, false);
-
-        // Search users
-        UserDao userDao = new UserDao();
-        SortCriteria sortCriteria = new SortCriteria(1, true);
-        List<UserDto> userDtoList = userDao.findByCriteria(new UserCriteria().setSearch(search), sortCriteria);
-        for (UserDto userDto : userDtoList) {
-            AclUtil.addAcls(tag, userDto.getId(), getTargetIdList(null));
-        }
-
         return Response.ok().entity(tag.build()).build();
     }
 
@@ -222,7 +208,7 @@ public class TagResource extends BaseResource {
             id = null;
         }
 
-         // Create read ACL
+        // Create read ACL
         AclDao aclDao = new AclDao();
         Acl acl = new Acl();
         acl.setPerm(PermType.READ);
@@ -238,6 +224,42 @@ public class TagResource extends BaseResource {
         acl.setSourceId(id);
         acl.setTargetId(principal.getId());
         aclDao.create(acl, principal.getId());
+
+        // Search users
+        UserDao userDao = new UserDao();
+        UserCriteria userCriteria = new UserCriteria();
+        userCriteria.setSearch(null);
+        userCriteria.setGroupId(null);
+        userCriteria.setUserId(null);
+        userCriteria.setUserName(null);
+
+        String userId ="";
+
+        SortCriteria sortCriteria = new SortCriteria(1, null);
+        List<UserDto> userDtoList = userDao.findByCriteria(userCriteria, sortCriteria);
+        for (UserDto userDto: userDtoList) {
+            if (tag.getName().equals(userDto.getUsername())) {
+                //AclUtil.addAcls(tag, id, getTargetIdList(null));
+                userId = userDto.getId();
+            }
+        }
+
+        // Create document read ACL
+        AclDao aclDaoDoc = new AclDao();
+        Acl aclDoc = new Acl();
+        aclDoc.setPerm(PermType.READ);
+        aclDoc.setType(AclType.USER);
+        aclDoc.setSourceId(id);
+        aclDoc.setTargetId(userId);
+        aclDaoDoc.create(acl, userId);
+
+        // Create document write ACL
+        aclDoc = new Acl();
+        aclDoc.setPerm(PermType.WRITE);
+        aclDoc.setType(AclType.USER);
+        acl.setSourceId(id);
+        acl.setTargetId(userId);
+        aclDaoDoc.create(acl, userId);
         
         JsonObjectBuilder response = Json.createObjectBuilder()
                 .add("id", id);
