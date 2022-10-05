@@ -16,6 +16,11 @@ import com.sismics.rest.util.AclUtil;
 import com.sismics.rest.util.ValidationUtil;
 import org.apache.commons.lang.StringUtils;
 
+import com.sismics.docs.core.dao.criteria.UserCriteria;
+import com.sismics.docs.core.dao.UserDao;
+import com.sismics.docs.core.dao.dto.UserDto;
+import com.sismics.docs.core.model.jpa.*;
+
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
@@ -204,7 +209,7 @@ public class TagResource extends BaseResource {
             id = null;
         }
 
-         // Create read ACL
+        // Create read ACL
         AclDao aclDao = new AclDao();
         Acl acl = new Acl();
         acl.setPerm(PermType.READ);
@@ -220,7 +225,44 @@ public class TagResource extends BaseResource {
         acl.setSourceId(id);
         acl.setTargetId(principal.getId());
         aclDao.create(acl, principal.getId());
-        
+
+        // Search users
+        UserDao userDao = new UserDao();
+        UserCriteria userCriteria = new UserCriteria();
+        userCriteria.setSearch(null);
+        userCriteria.setGroupId(null);
+        userCriteria.setUserId(null);
+        userCriteria.setUserName(tag.getName());
+
+        UserDto dto = null;
+
+        SortCriteria sortCriteria = new SortCriteria(1, null);
+        List<UserDto> userDtoList = userDao.findByCriteria(userCriteria, sortCriteria);
+        for (UserDto userDto: userDtoList) {
+            if (tag.getName().equals(userDto.getUsername())) {
+                dto = userDto;
+            }
+        }
+
+        if (dto != null) {
+            // Create document read ACL
+            AclDao aclDaoDoc = new AclDao();
+            Acl aclDoc = new Acl();
+            aclDoc.setPerm(PermType.READ);
+            aclDoc.setType(AclType.USER);
+            aclDoc.setSourceId(id);
+            aclDoc.setTargetId(dto.getId());
+            aclDaoDoc.create(aclDoc, dto.getId());
+
+            // Create document write ACL
+            aclDoc = new Acl();
+            aclDoc.setPerm(PermType.WRITE);
+            aclDoc.setType(AclType.USER);
+            aclDoc.setSourceId(id);
+            aclDoc.setTargetId(dto.getId());
+            aclDaoDoc.create(aclDoc, dto.getId());
+        }
+       
         JsonObjectBuilder response = Json.createObjectBuilder()
                 .add("id", id);
         return Response.ok().entity(response.build()).build();
