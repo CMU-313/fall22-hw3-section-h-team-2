@@ -12,3 +12,7 @@ The feature our team built enables users tagged as reviewers to be assigned to a
 - Under *Documents* in Navbar, you can see the list of users who have been tagged as reviewer
 - To assign reviewers to applications, first click *Add a document* to upload an application. Under *Primary Data* -> *Reviewers*, type a reviewer and click on the reviewer you want to assign to this application in the dropdown menu
 - Under *Additional metadata*, the fields *Skills*, *Experience* and *GPA* can also be filled in when uploading applications
+
+# Documentation
+
+To better understand the changes we made as part of our feature, refer [here](https://docs.google.com/document/d/1VQ2C1vgC8NXCJ6zCf-K3BImtCRxyvzE50QjzAJB5XfI/)
