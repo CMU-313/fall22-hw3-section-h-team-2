@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import com.sismics.docs.core.dao.criteria.UserCriteria;
 import com.sismics.docs.core.dao.UserDao;
 import com.sismics.docs.core.dao.dto.UserDto;
+import com.sismics.docs.core.model.jpa.*;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -234,13 +235,14 @@ public class TagResource extends BaseResource {
         userCriteria.setUserName(null);
 
         String userId ="";
+        UserDto dto = null;
 
         SortCriteria sortCriteria = new SortCriteria(1, null);
         List<UserDto> userDtoList = userDao.findByCriteria(userCriteria, sortCriteria);
         for (UserDto userDto: userDtoList) {
             if (tag.getName().equals(userDto.getUsername())) {
                 //AclUtil.addAcls(tag, id, getTargetIdList(null));
-                userId = userDto.getId();
+                dto = userDto;
             }
         }
 
@@ -250,16 +252,16 @@ public class TagResource extends BaseResource {
         aclDoc.setPerm(PermType.READ);
         aclDoc.setType(AclType.USER);
         aclDoc.setSourceId(id);
-        aclDoc.setTargetId(userId);
-        aclDaoDoc.create(acl, userId);
+        aclDoc.setTargetId(dto.getId());
+        aclDaoDoc.create(aclDoc, dto.getId());
 
         // Create document write ACL
         aclDoc = new Acl();
         aclDoc.setPerm(PermType.WRITE);
         aclDoc.setType(AclType.USER);
         acl.setSourceId(id);
-        acl.setTargetId(userId);
-        aclDaoDoc.create(acl, userId);
+        acl.setTargetId(dto.getId());
+        aclDaoDoc.create(aclDoc, dto.getId());
         
         JsonObjectBuilder response = Json.createObjectBuilder()
                 .add("id", id);
