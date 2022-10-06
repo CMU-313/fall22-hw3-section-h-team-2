@@ -174,8 +174,8 @@ public class DocumentResource extends BaseResource {
                 .add("language", documentDto.getLanguage())
                 .add("shared", documentDto.getShared())
                 .add("file_count", documentDto.getFileCount())
-                .add("skills", documentDto.getSkills())
                 .add("experience", documentDto.getExperience())
+                .add("skills", documentDto.getSkills())
                 .add("GPA", documentDto.getGPA());
 
         List<TagDto> tagDtoList = null;
@@ -210,6 +210,9 @@ public class DocumentResource extends BaseResource {
         document.add("coverage", JsonUtil.nullable(documentDto.getCoverage()));
         document.add("rights", JsonUtil.nullable(documentDto.getRights()));
         document.add("creator", documentDto.getCreator());
+        // document.add("experience", documentDto.getExperience());
+        // document.add("skills", documentDto.getSkills());
+        // document.add("GPA", documentDto.getGPA());
 
         // Add ACL
         AclUtil.addAcls(document, documentId, getTargetIdList(shareId));
@@ -718,6 +721,9 @@ public class DocumentResource extends BaseResource {
      * @param metadataValueList Metadata value list
      * @param language Language
      * @param createDateStr Creation date
+     * @param experience Experience
+     * @param skills Skills
+     * @param GPA GPA
      * @return Response
      */
     @PUT
@@ -737,7 +743,10 @@ public class DocumentResource extends BaseResource {
             @FormParam("metadata_id") List<String> metadataIdList,
             @FormParam("metadata_value") List<String> metadataValueList,
             @FormParam("language") String language,
-            @FormParam("create_date") String createDateStr) {
+            @FormParam("create_date") String createDateStr,
+            @FormParam("experience") String experience,
+            @FormParam("skills") String skills,
+            @FormParam("GPA") String GPA) {
         if (!authenticate()) {
             throw new ForbiddenClientException();
         }
@@ -773,6 +782,9 @@ public class DocumentResource extends BaseResource {
         document.setCoverage(coverage);
         document.setRights(rights);
         document.setLanguage(language);
+        document.setExperience(experience);
+        document.setSkills(skills);
+        document.setGPA(GPA);
         if (createDate == null) {
             document.setCreateDate(new Date());
         } else {
@@ -859,7 +871,10 @@ public class DocumentResource extends BaseResource {
             @FormParam("metadata_id") List<String> metadataIdList,
             @FormParam("metadata_value") List<String> metadataValueList,
             @FormParam("language") String language,
-            @FormParam("create_date") String createDateStr) {
+            @FormParam("create_date") String createDateStr,
+            @FormParam("experience") String experience,
+            @FormParam("skills") String skills,
+            @FormParam("GPA") String GPA) {
         if (!authenticate()) {
             throw new ForbiddenClientException();
         }
@@ -906,6 +921,10 @@ public class DocumentResource extends BaseResource {
         document.setCoverage(coverage);
         document.setRights(rights);
         document.setLanguage(language);
+        document.setExperience(experience);
+        document.setSkills(skills);
+        document.setGPA(GPA);
+
         if (createDate == null) {
             document.setCreateDate(new Date());
         } else {
