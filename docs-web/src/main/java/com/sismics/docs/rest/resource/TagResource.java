@@ -232,7 +232,7 @@ public class TagResource extends BaseResource {
         userCriteria.setSearch(null);
         userCriteria.setGroupId(null);
         userCriteria.setUserId(null);
-        userCriteria.setUserName(null);
+        userCriteria.setUserName(tag.getName());
 
         String userId ="";
         UserDto dto = null;
@@ -241,28 +241,33 @@ public class TagResource extends BaseResource {
         List<UserDto> userDtoList = userDao.findByCriteria(userCriteria, sortCriteria);
         for (UserDto userDto: userDtoList) {
             if (tag.getName().equals(userDto.getUsername())) {
-                //AclUtil.addAcls(tag, id, getTargetIdList(null));
                 dto = userDto;
             }
         }
 
-        // Create document read ACL
-        AclDao aclDaoDoc = new AclDao();
-        Acl aclDoc = new Acl();
-        aclDoc.setPerm(PermType.READ);
-        aclDoc.setType(AclType.USER);
-        aclDoc.setSourceId(id);
-        aclDoc.setTargetId(dto.getId());
-        aclDaoDoc.create(aclDoc, dto.getId());
+        if (dto != null) {
+            // Create document read ACL
+            AclDao aclDaoDoc = new AclDao();
+            Acl aclDoc = new Acl();
+            aclDoc.setPerm(PermType.READ);
+            aclDoc.setType(AclType.USER);
+            aclDoc.setSourceId(id);
+            aclDoc.setTargetId(dto.getId());
+            aclDaoDoc.create(aclDoc, dto.getId());
 
-        // Create document write ACL
-        aclDoc = new Acl();
-        aclDoc.setPerm(PermType.WRITE);
-        aclDoc.setType(AclType.USER);
-        acl.setSourceId(id);
-        acl.setTargetId(dto.getId());
-        aclDaoDoc.create(aclDoc, dto.getId());
-        
+            // Create document write ACL
+            aclDoc = new Acl();
+            aclDoc.setPerm(PermType.WRITE);
+            aclDoc.setType(AclType.USER);
+            aclDoc.setSourceId(id);
+            aclDoc.setTargetId(dto.getId());
+            System.out.println("two");
+            System.out.println(aclDoc.toString());
+            System.out.println(dto.getId().toString());
+            aclDaoDoc.create(aclDoc, dto.getId());
+            System.out.println("one");
+        }
+       
         JsonObjectBuilder response = Json.createObjectBuilder()
                 .add("id", id);
         return Response.ok().entity(response.build()).build();
