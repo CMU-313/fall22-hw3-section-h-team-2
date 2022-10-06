@@ -135,7 +135,7 @@ public class Document implements Loggable {
      * GPA.
      */
     @Column(name = "DOC_GPA_C")
-    private Long GPA;
+    private String GPA;
 
     public String getId() {
         return id;
@@ -291,11 +291,11 @@ public class Document implements Loggable {
         this.experience = experience;
     }
 
-    public Long getGPA() {
+    public String getGPA() {
         return GPA;
     }
 
-    public void setGPA(Long GPA) {
+    public void setGPA(String GPA) {
         this.GPA = GPA;
     }
 

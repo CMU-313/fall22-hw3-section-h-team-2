@@ -124,7 +124,7 @@ public class DocumentDto {
     /**
      * GPA.
      */
-    private Long GPA;
+    private String GPA;
 
     public String getId() {
         return id;
@@ -315,11 +315,11 @@ public class DocumentDto {
         return this;
     }
 
-    public Long getGPA() {
+    public String getGPA() {
         return GPA;
     }
 
-    public DocumentDto setGPA(Long GPA) {
+    public DocumentDto setGPA(String GPA) {
         this.GPA = GPA;
         return this;
     }
