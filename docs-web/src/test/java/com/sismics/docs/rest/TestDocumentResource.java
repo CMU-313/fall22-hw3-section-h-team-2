@@ -2,6 +2,9 @@ package com.sismics.docs.rest;
 
 import com.google.common.io.ByteStreams;
 import com.google.common.io.Resources;
+import com.sismics.docs.core.dao.UserDao;
+import com.sismics.docs.core.dao.dto.UserDto;
+import com.sismics.docs.core.model.jpa.User;
 import com.sismics.docs.core.util.DirectoryUtil;
 import com.sismics.util.filter.TokenBasedSecurityFilter;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
@@ -74,6 +77,9 @@ public class TestDocumentResource extends BaseJerseyTest {
                         .param("source", "Source document 1")
                         .param("type", "Software")
                         .param("coverage", "Greenland")
+                        .param("skills", "Python, Java, C")
+                        .param("experience", "FAANG")
+                        .param("GPA", "4.0")
                         .param("rights", "Public Domain")
                         .param("tags", tag1Id)
                         .param("tags", tag2Id)
@@ -117,6 +123,9 @@ public class TestDocumentResource extends BaseJerseyTest {
         Assert.assertEquals("eng", documents.getJsonObject(0).getString("language"));
         Assert.assertEquals(file1Id, documents.getJsonObject(0).getString("file_id"));
         Assert.assertEquals(1, documents.getJsonObject(0).getInt("file_count"));
+        Assert.assertEquals("Python, Java, C", documents.getJsonObject(0).getString("skills"));
+        Assert.assertEquals("FAANG", documents.getJsonObject(0).getString("experience"));
+        Assert.assertEquals("4.0", documents.getJsonObject(0).getString("GPA"));
         Assert.assertEquals(2, tags.size());
         Assert.assertEquals(tag2Id, tags.getJsonObject(0).getString("id"));
         Assert.assertEquals("HR", tags.getJsonObject(0).getString("name"));
