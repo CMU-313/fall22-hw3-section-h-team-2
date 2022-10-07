@@ -111,6 +111,21 @@ public class DocumentDto {
      */
     private String highlight;
 
+    /**
+     * Skills.
+     */
+    private String skills;
+
+    /**
+     * Experience.
+     */
+    private String experience;
+
+    /**
+     * GPA.
+     */
+    private String GPA;
+
     public String getId() {
         return id;
     }
@@ -279,6 +294,33 @@ public class DocumentDto {
 
     public DocumentDto setHighlight(String highlight) {
         this.highlight = highlight;
+        return this;
+    }
+
+    public String getSkills() {
+        return skills;
+    }
+
+    public DocumentDto setSkills(String skills) {
+        this.skills = skills;
+        return this;
+    }
+
+    public String getExperience() {
+        return experience;
+    }
+
+    public DocumentDto setExperience(String experience) {
+        this.experience = experience;
+        return this;
+    }
+
+    public String getGPA() {
+        return GPA;
+    }
+
+    public DocumentDto setGPA(String GPA) {
+        this.GPA = GPA;
         return this;
     }
 }

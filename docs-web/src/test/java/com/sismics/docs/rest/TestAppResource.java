@@ -3,10 +3,14 @@ package com.sismics.docs.rest;
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.GreenMailUtil;
 import com.icegreen.greenmail.util.ServerSetup;
+import com.sismics.docs.core.dao.UserDao;
 import com.sismics.docs.core.model.context.AppContext;
+import com.sismics.docs.core.model.jpa.User;
 import com.sismics.util.filter.TokenBasedSecurityFilter;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.Date;
 
 import javax.json.JsonArray;
 import javax.json.JsonObject;
@@ -220,11 +224,14 @@ public class TestAppResource extends BaseJerseyTest {
 
     /**
      * Test inbox scanning.
+ * @throws Exception
      */
     @Test
-    public void testInbox() {
+    public void testInbox() throws Exception {
         // Login admin
         String adminToken = clientUtil.login("admin", "admin", false);
+
+        clientUtil.createUser("Inbox");
 
         // Create a tag
         JsonObject json = target().path("/tag").request()
